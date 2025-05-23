@@ -29,27 +29,54 @@
             padding: 15px;
             border: 1px solid #eee;
             border-radius: 8px;
+            background-color: white;
         }
-        .joke-title {
+        .joke-question {
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
             color: #333;
         }
-        .joke-content {
+        .joke-answer {
             font-size: 16px;
             color: #666;
+            margin-bottom: 8px;
+            display: none;
         }
-        .joke-image {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
+        .joke-explanation {
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+            display: none;
+        }
+        .joke-category {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
             border-radius: 4px;
+            font-size: 12px;
+            margin-top: 8px;
         }
         .loading {
             text-align: center;
             padding: 20px;
             color: #666;
+        }
+        .answer-hidden {
+            display: none;
+        }
+        .show-answer {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .show-answer:hover {
+            background-color: #1976d2;
         }
     </style>
 </head>
@@ -72,24 +99,42 @@
                     const jokeCard = document.createElement('div');
                     jokeCard.className = 'joke-card';
                     
-                    const title = document.createElement('div');
-                    title.className = 'joke-title';
-                    title.textContent = joke.title || '笑话';
+                    const question = document.createElement('div');
+                    question.className = 'joke-question';
+                    question.textContent = joke.question;
                     
-                    const content = document.createElement('div');
-                    content.className = 'joke-content';
-                    content.textContent = joke.content;
+                    const answer = document.createElement('div');
+                    answer.className = 'joke-answer';
+                    answer.textContent = '答案：' + joke.answer;
                     
-                    jokeCard.appendChild(title);
-                    jokeCard.appendChild(content);
+                    const explanation = document.createElement('div');
+                    explanation.className = 'joke-explanation';
+                    explanation.textContent = '解释：' + (joke.explanation || '');
                     
-                    if (joke.image) {
-                        const image = document.createElement('img');
-                        image.className = 'joke-image';
-                        image.src = joke.image;
-                        image.alt = joke.title;
-                        jokeCard.appendChild(image);
-                    }
+                    const category = document.createElement('div');
+                    category.className = 'joke-category';
+                    category.textContent = joke.category;
+                    
+                    const btn = document.createElement('button');
+                    btn.className = 'show-answer';
+                    btn.textContent = '显示答案';
+                    btn.onclick = function() {
+                        if (answer.style.display === 'none') {
+                            answer.style.display = 'block';
+                            explanation.style.display = 'block';
+                            btn.textContent = '隐藏答案';
+                        } else {
+                            answer.style.display = 'none';
+                            explanation.style.display = 'none';
+                            btn.textContent = '显示答案';
+                        }
+                    };
+                    
+                    jokeCard.appendChild(question);
+                    jokeCard.appendChild(btn);
+                    jokeCard.appendChild(answer);
+                    jokeCard.appendChild(explanation);
+                    jokeCard.appendChild(category);
                     
                     container.appendChild(jokeCard);
                 });
